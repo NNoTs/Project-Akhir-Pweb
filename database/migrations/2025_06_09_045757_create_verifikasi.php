@@ -3,19 +3,20 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\DB;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('kategori_laporan', function (Blueprint $table) {
+        Schema::create('verifikasi', function (Blueprint $table)
+        {
             $table->id();
-            $table->string('nama_kategori');
-            $table->text('deskripsi')->nullable();
-            $table->timestamps();
+            $table->foreignId('laporan_id')->constrained('laporan');
+            $table->foreignId('admin_id')->constrained('admin');
+            $table->timestamp('tanggal_verifikasi');
         });
     }
 
@@ -24,6 +25,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('kategori_laporan');
+        Schema::dropIfExists('verifikasi');
     }
 };

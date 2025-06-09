@@ -13,23 +13,18 @@ return new class extends Migration
     {
         Schema::create('laporan', function (Blueprint $table)
         {
-            $table->id(); // 🔧 gunakan unsignedBigInteger secara default
+            $table->id();
 
+            $table->string('nama_pelapor');
+            $table->string('email_pelapor');
             $table->foreignId('kategori_id')
                   ->nullable()
                   ->constrained('kategori_laporan')
                   ->onDelete('set null');
-
-            $table->foreignId('user_id')
-                  ->constrained('users')
-                  ->onDelete('cascade');
-
             $table->string('judul');
             $table->text('isi');
             $table->string('lokasi');
-
             $table->enum('status', ['menunggu', 'diproses', 'selesai', 'ditolak'])->default('menunggu');
-
             $table->timestamps();
         });
     }
