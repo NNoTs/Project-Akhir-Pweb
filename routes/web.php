@@ -1,13 +1,15 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DashboardAdmin;
 use App\Http\Controllers\DashboardPetugas;
+use App\Http\Controllers\LaporanController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [BerandaController::class, 'index']);
+Route::get('/', [LaporanController::class, 'index']);
+Route::post('/laporan', [LaporanController::class, 'store'])->name('laporan.store');
 
 
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
