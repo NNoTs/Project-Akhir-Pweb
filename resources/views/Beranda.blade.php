@@ -11,18 +11,18 @@
 <body>
 
     <!-- Header -->
-    <div class="logo-header">
-            <img src="{{ asset('img/sapa-logo.png') }}" alt="SAPA Logo">
-        <div>
-            <h1>SAPA</h1>
-            <span>Sistem Aspirasi dan Pengaduan Masyarakat</span>
+    <div class="logo-header d-flex justify-content-between align-items-center px-4 py-2">
+        <div class="d-flex align-items-center gap-3">
+            <img src="{{ asset('img/sapa-logo.png') }}" alt="SAPA Logo" style="height: 50px;">
+                <div>
+                    <h1 class="h4 mb-0">SAPA</h1>
+                    <span style="font-size: 0.9rem;">Sistem Aspirasi dan Pengaduan Masyarakat</span>
+                </div>
         </div>
+        <a href="{{ route('laporan.lihat') }}" class="btn btn-lihat">Lihat Laporan</a>
     </div>
 
     <div class="container mt-4">
-        <!-- <div class="filter-btn">
-            <button class="btn btn-outline-secondary">🔍 Filter kategori</button>
-        </div> -->
 
         {{-- Notifikasi sukses --}}
         @if (session('success'))

@@ -13,7 +13,12 @@ class LaporanController extends Controller
         $kategori = KategoriLaporan::all();
         return view('beranda', compact('kategori'));
     }
+    public function lihat()
+    {
+        $laporan = Laporan::with('kategori')->latest()->get();
 
+        return view('lihatlaporan', compact('laporan'));
+    }
     public function store(Request $request)
     {
         $request->validate([

@@ -9,6 +9,8 @@ use App\Http\Controllers\LaporanController;
 
 Route::get('/', [BerandaController::class, 'index']);
 Route::get('/', [LaporanController::class, 'index']);
+Route::get('/beranda', [BerandaController::class, 'index'])->name('beranda');
+Route::get('/lihat-laporan', [LaporanController::class, 'lihat'])->name('laporan.lihat');
 Route::post('/laporan', [LaporanController::class, 'store'])->name('laporan.store');
 
 
