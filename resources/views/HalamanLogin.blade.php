@@ -1,32 +1,46 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Login</title>
+    <meta charset="UTF-8">
+    <title>Login SAPA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/loginStyle.css') }}">
 </head>
 <body>
-    <h2>Login</h2>
+    <div class="container">
+        <div class="top-logo">
+            <img src="{{ asset('img/sapa-logo.png') }}" alt="SAPA Logo">
+            <h1>Welcome to SAPA</h1>
+            <p class="subtitle">Sistem Aspirasi dan Pengaduan Masyarakat</p>
+        </div>
 
-    @if ($errors->any())
-        <div style="color: red;">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+        <div class="login-box">
+            <div class="login-box-header">
+                <h3>Login</h3>
+            </div>
+            <div class="form-body">
+                @if ($errors->any())
+                    <div class="error-message">
+                        @foreach ($errors->all() as $error)
+                            <p style="color: red;">{{ $error }}</p>
+                        @endforeach
+                    </div>
+                @endif
 
-    <form action="{{ url('/login') }}" method="POST">
-        @csrf
-        <div>
-            <label>Username:</label>
-            <input type="text" name="username" required>
+                <form action="{{ url('/login') }}" method="POST">
+                    @csrf
+                    <div class="input-group">
+                        <label>📧 E-mail</label>
+                        <input type="text" name="email" required>
+                    </div>
+                    <div class="input-group">
+                        <label>🔑 Password</label>
+                        <input type="password" name="password" required>
+                    </div>
+                    <button type="submit">➡️ Login</button>
+                </form>
+            </div>
         </div>
-        <div>
-            <label>Password:</label>
-            <input type="password" name="password" required>
-        </div>
-        <button type="submit">Login</button>
-    </form>
+    </div>
 </body>
 </html>
