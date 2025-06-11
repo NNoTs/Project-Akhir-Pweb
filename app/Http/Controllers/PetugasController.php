@@ -26,16 +26,7 @@ class LaporanController extends Controller
     {
         $laporan = Laporan::with('kategori')->findOrFail($id);
         
-        return view('petugas.laporan.show', compact('laporan'));
-    }
-
-    /**
-     * Show the form for editing laporan status.
-     */
-    public function editStatus($id)
-    {
-        $laporan = Laporan::with('kategori')->findOrFail($id);
-        return view('petugas.laporan.edit_status', compact('laporan'));
+        return view('PetugasMelihatDetailLaporan', compact('laporan'));
     }
 
     /**
@@ -45,7 +36,6 @@ class LaporanController extends Controller
     {
         $request->validate([
             'status' => 'required|in:menunggu,diproses,selesai,ditolak',
-            'catatan' => 'nullable|string|max:1000',
         ]);
 
         $laporan = Laporan::findOrFail($id);
@@ -53,20 +43,10 @@ class LaporanController extends Controller
         // Log status change if needed
         $oldStatus = $laporan->status;
         
-        $updateData = [
+        $laporan->update([
             'status' => $request->status,
             'updated_at' => now()
-        ];
-
-        // Add catatan if provided
-        if ($request->filled('catatan')) {
-            $updateData['catatan_status'] = $request->catatan;
-        }
-
-        $laporan->update($updateData);
-
-        // Optional: Create status history log
-        // $this->createStatusHistory($laporan, $oldStatus, $request->status, $request->catatan);
+        ]);
 
         // Optional: Log the status change
         // Log::info("Status laporan ID {$id} diubah dari {$oldStatus} ke {$request->status}");
@@ -252,69 +232,5 @@ class LaporanController extends Controller
         // Mail::to('admin@example.com')->send(new LaporanSentToAdmin($laporan));
         // Or create database notification
         // Notification::create([...]);
-    }
-
-    /**
-     * Create status history record.
-     */
-    private function createStatusHistory($laporan, $oldStatus, $newStatus, $catatan = null)
-    {
-        // Assuming you have a status_histories table
-        // StatusHistory::create([
-        //     'laporan_id' => $laporan->id,
-        //     'old_status' => $oldStatus,
-        //     'new_status' => $newStatus,
-        //     'catatan' => $catatan,
-        //     'changed_by' => auth()->id(), // assuming you have user authentication
-        //     'changed_at' => now(),
-        // ]);
-    }
-
-    /**
-     * Get status history for a laporan.
-     */
-    public function getStatusHistory($id)
-    {
-        // Assuming you have a status_histories table
-        // return StatusHistory::where('laporan_id', $id)
-        //     ->with('user') // who made the change
-        //     ->orderBy('changed_at', 'desc')
-        //     ->get();
-        
-        return collect([]); // Return empty collection if not implemented
-    }
-
-    /**
-     * Dashboard data for petugas.
-     */
-    public function getDashboardData()
-    {
-        $today = now()->startOfDay();
-        $thisWeek = now()->startOfWeek();
-        $thisMonth = now()->startOfMonth();
-
-        return [
-            'total_laporan' => Laporan::count(),
-            'laporan_hari_ini' => Laporan::whereDate('created_at', $today)->count(),
-            'laporan_minggu_ini' => Laporan::where('created_at', '>=', $thisWeek)->count(),
-            'laporan_bulan_ini' => Laporan::where('created_at', '>=', $thisMonth)->count(),
-            
-            'menunggu' => Laporan::where('status', 'menunggu')->count(),
-            'diproses' => Laporan::where('status', 'diproses')->count(),
-            'selesai' => Laporan::where('status', 'selesai')->count(),
-            'ditolak' => Laporan::where('status', 'ditolak')->count(),
-            
-            'belum_dikirim_admin' => Laporan::where('dikirim_ke_admin', false)->count(),
-            'sudah_dikirim_admin' => Laporan::where('dikirim_ke_admin', true)->count(),
-
-            'recent_laporan' => Laporan::with('kategori')
-                ->orderBy('created_at', 'desc')
-                ->limit(5)
-                ->get(),
-                
-            'urgent_laporan' => Laporan::where('status', 'menunggu')
-                ->where('created_at', '<', now()->subDays(3))
-                ->count(),
-        ];
     }
 }
