@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Laporan extends Model
 {
@@ -19,12 +20,12 @@ class Laporan extends Model
         'isi',
         'lokasi',
         'status',
-        'dikirim_ke_admin'
+        'dikirim_ke_admin',
     ];
 
     // Relasi ke kategori
-    public function kategori()
+    public function kategori(): BelongsTo
     {
-        return $this->belongsTo(KategoriLaporan::class);
+        return $this->belongsTo(KategoriLaporan::class, 'kategori_id');
     }
 }

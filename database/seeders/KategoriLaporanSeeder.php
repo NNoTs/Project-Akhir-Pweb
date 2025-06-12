@@ -8,15 +8,12 @@ use Carbon\Carbon;
 
 class KategoriLaporanSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         DB::table('kategori_laporan')->insert([
             [
                 'nama_kategori' => 'Fasilitas Umum',
-                'deskripsi' => 'Masalah terkait fasilitas umum seperti jalan, lampu, dll.',
+                'deskripsi' => 'Laporan terkait jalan rusak, lampu mati, dan sejenisnya.',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
@@ -29,6 +26,24 @@ class KategoriLaporanSeeder extends Seeder
             [
                 'nama_kategori' => 'Keamanan',
                 'deskripsi' => 'Laporan berkaitan dengan keamanan masyarakat.',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'nama_kategori' => 'Kebersihan',
+                'deskripsi' => 'Laporan tentang sampah, pencemaran, dll.',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'nama_kategori' => 'Infrastruktur',
+                'deskripsi' => 'Laporan terkait infrastruktur seperti jembatan, trotoar, dan gedung publik.',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'nama_kategori' => 'Bencana Alam',
+                'deskripsi' => 'Laporan terkait banjir, longsor, gempa bumi, dan sejenisnya.',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],

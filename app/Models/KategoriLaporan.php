@@ -16,7 +16,6 @@ class KategoriLaporan extends Model
         'deskripsi',
     ];
 
-    // Relasi ke Laporan
     public function laporan()
     {
         return $this->hasMany(Laporan::class, 'kategori_id');
