@@ -18,11 +18,11 @@ class LoginController extends Controller
     {
         $request->validate
         ([
-            'username' => 'required',
+            'email' => 'required',
             'password' => 'required'
         ]);
 
-        $admin = DB::table('admin')->where('email', $request->username)->first();
+        $admin = DB::table('admin')->where('email', $request->email)->first();
         if ($admin && Hash::check($request->password, $admin->password))
         {
             Session::put('user', $admin);
@@ -30,7 +30,7 @@ class LoginController extends Controller
             return redirect('/DashboardAdmin');
         }
 
-        $petugas = DB::table('petugas')->where('email', $request->username)->first();
+        $petugas = DB::table('petugas')->where('email', $request->email)->first();
         if ($petugas && Hash::check($request->password, $petugas->password))
         {
             Session::put('user', $petugas);
