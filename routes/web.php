@@ -19,9 +19,11 @@ Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get('/DashboardAdmin',[DashboardAdmin::class, 'dashboard']);
-Route::get('/DashboardPetugas', [DashboardPetugas::class, 'dashboard']);
+Route::get('/DashboardAdmin/{id}', [DashboardAdmin::class, 'show']);
+Route::post('/DashboardAdmin/{id}/tanggapan', [DashboardAdmin::class, 'tanggapan']);
+Route::post('/DashboardAdmin/{id}/verifikasi', [DashboardAdmin::class, 'verifikasi']);
 
-Route::get('/laporan', [LaporanController::class, 'index'])->name('petugas.laporan.index');
+Route::get('/DashboardPetugas', [DashboardPetugas::class, 'dashboard']);
 Route::get('/laporan/{id}', [LaporanController::class, 'show'])->name('petugas.laporan.show');
 Route::post('/laporan/kirim/{id}', [LaporanController::class, 'kirimKeAdmin'])->name('petugas.laporan.kirim');
 Route::patch('/laporan/status/{id}', [LaporanController::class, 'updateStatus'])->name('petugas.laporan.status');

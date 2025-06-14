@@ -56,7 +56,7 @@
                             </td>
                             <td class="px-4 py-3 text-sm"><?= date('d/m/Y H:i', strtotime($item->created_at)) ?></td>
                             <td class="px-4 py-3 space-x-2">
-                                <a href="<?= route('petugas.laporan.show', $item->id) ?>" 
+                                <a href="<?= route('petugas.laporan.show', $item->id) ?>"
                                    class="inline-block bg-[#9AC9F5] hover:bg-blue-300 text-white text-sm px-3 py-1 rounded shadow">
                                     Detail
                                 </a>
