@@ -15,8 +15,8 @@ Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::get('/DashboardAdmin',[DashboardAdmin::class, 'dashboard']);
-Route::get('/DashboardPetugas', [DashboardPetugas::class, 'dashboard']);
+Route::get('/DashboardAdmin',[DashboardAdmin::class, 'dashboard'])->name('admin.dashboard');
+Route::get('/DashboardPetugas', [DashboardPetugas::class, 'dashboard'])->name('petugas.dashboard');
 
 // Route yang sudah Anda miliki
 Route::get('/laporan', [LaporanController::class, 'index'])->name('petugas.laporan.index');
@@ -30,4 +30,6 @@ Route::get('/laporan/filter', [LaporanController::class, 'filterByStatus'])->nam
 Route::get('/laporan/search', [LaporanController::class, 'search'])->name('petugas.laporan.search');
 Route::post('/laporan/bulk-update', [LaporanController::class, 'bulkUpdateStatus'])->name('petugas.laporan.bulk_update');
 Route::get('/laporan/export', [LaporanController::class, 'export'])->name('petugas.laporan.export');
+
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 

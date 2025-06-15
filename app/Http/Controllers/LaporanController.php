@@ -7,9 +7,6 @@ use Illuminate\Http\Request;
 
 class LaporanController extends Controller
 {
-    /**
-     * Display a listing of the laporan.
-     */
     public function index()
     {
         $laporan = Laporan::with('kategori')
@@ -19,9 +16,6 @@ class LaporanController extends Controller
         return view('petugas.laporan.index', compact('laporan'));
     }
 
-    /**
-     * Display the specified laporan detail.
-     */
     public function show($id)
     {
         $laporan = Laporan::with('kategori')->findOrFail($id);
@@ -29,18 +23,13 @@ class LaporanController extends Controller
         return view('petugas.laporan.show', compact('laporan'));
     }
 
-    /**
-     * Show the form for editing laporan status.
-     */
+
     public function editStatus($id)
     {
         $laporan = Laporan::with('kategori')->findOrFail($id);
         return view('petugas.laporan.edit_status', compact('laporan'));
     }
 
-    /**
-     * Update the status of the specified laporan.
-     */
     public function updateStatus(Request $request, $id)
     {
         $request->validate([
@@ -65,24 +54,14 @@ class LaporanController extends Controller
 
         $laporan->update($updateData);
 
-        // Optional: Create status history log
-        // $this->createStatusHistory($laporan, $oldStatus, $request->status, $request->catatan);
-
-        // Optional: Log the status change
-        // Log::info("Status laporan ID {$id} diubah dari {$oldStatus} ke {$request->status}");
-
         return redirect()->route('petugas.laporan.index')
             ->with('success', 'Status laporan berhasil diperbarui dari "' . ucfirst($oldStatus) . '" ke "' . ucfirst($request->status) . '".');
     }
 
-    /**
-     * Send laporan to admin.
-     */
     public function kirimKeAdmin($id)
     {
         $laporan = Laporan::findOrFail($id);
 
-        // Check if already sent
         if ($laporan->dikirim_ke_admin) {
             return redirect()->route('petugas.laporan.index')
                 ->with('warning', 'Laporan ini sudah dikirim ke admin sebelumnya.');
@@ -92,7 +71,7 @@ class LaporanController extends Controller
         $laporan->update([
             'dikirim_ke_admin' => true,
             'tanggal_dikirim_admin' => now(),
-            'status' => 'diproses' // Optional: automatically change status when sent to admin
+            'status' => 'diproses'
         ]);
 
         // Optional: Send notification to admin
@@ -102,9 +81,6 @@ class LaporanController extends Controller
             ->with('success', 'Laporan berhasil dikirim ke admin untuk ditindaklanjuti.');
     }
 
-    /**
-     * Get laporan statistics for dashboard.
-     */
     public function getStatistics()
     {
         $stats = [
@@ -118,203 +94,5 @@ class LaporanController extends Controller
         ];
 
         return $stats;
-    }
-
-    /**
-     * Get recent laporan for dashboard.
-     */
-    public function getRecentLaporan($limit = 5)
-    {
-        return Laporan::with('kategori')
-            ->orderBy('created_at', 'desc')
-            ->limit($limit)
-            ->get();
-    }
-
-    /**
-     * Filter laporan by status.
-     */
-    public function filterByStatus(Request $request)
-    {
-        $status = $request->get('status');
-        
-        $query = Laporan::with('kategori');
-        
-        if ($status && $status !== 'semua') {
-            $query->where('status', $status);
-        }
-        
-        $laporan = $query->orderBy('created_at', 'desc')->get();
-        
-        return view('petugas.laporan.index', compact('laporan'));
-    }
-
-    /**
-     * Search laporan.
-     */
-    public function search(Request $request)
-    {
-        $keyword = $request->get('search');
-        
-        $laporan = Laporan::with('kategori')
-            ->where(function($query) use ($keyword) {
-                $query->where('judul', 'like', "%{$keyword}%")
-                      ->orWhere('nama_pelapor', 'like', "%{$keyword}%")
-                      ->orWhere('email_pelapor', 'like', "%{$keyword}%")
-                      ->orWhere('lokasi', 'like', "%{$keyword}%")
-                      ->orWhere('deskripsi', 'like', "%{$keyword}%");
-            })
-            ->orderBy('created_at', 'desc')
-            ->get();
-            
-        return view('petugas.laporan.index', compact('laporan'));
-    }
-
-    /**
-     * Bulk update status for multiple laporan.
-     */
-    public function bulkUpdateStatus(Request $request)
-    {
-        $request->validate([
-            'laporan_ids' => 'required|array',
-            'laporan_ids.*' => 'exists:laporan,id',
-            'status' => 'required|in:menunggu,diproses,selesai,ditolak',
-        ]);
-
-        $updated = Laporan::whereIn('id', $request->laporan_ids)
-            ->update([
-                'status' => $request->status,
-                'updated_at' => now()
-            ]);
-
-        return redirect()->route('petugas.laporan.index')
-            ->with('success', "{$updated} laporan berhasil diperbarui statusnya ke \"" . ucfirst($request->status) . "\".");
-    }
-
-    /**
-     * Export laporan to CSV or Excel.
-     */
-    public function export(Request $request)
-    {
-        $format = $request->get('format', 'csv');
-        
-        // This would need additional packages like maatwebsite/excel
-        // For now, just return basic CSV
-        
-        $laporan = Laporan::with('kategori')->get();
-        
-        $filename = 'laporan_' . date('Y-m-d_H-i-s') . '.csv';
-        
-        $headers = [
-            'Content-Type' => 'text/csv',
-            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
-        ];
-
-        $callback = function() use ($laporan) {
-            $file = fopen('php://output', 'w');
-            
-            // Header CSV
-            fputcsv($file, [
-                'ID', 'Nama Pelapor', 'Email', 'Kategori', 'Judul', 
-                'Lokasi', 'Status', 'Dikirim ke Admin', 'Tanggal Dibuat'
-            ]);
-
-            // Data
-            foreach ($laporan as $item) {
-                fputcsv($file, [
-                    $item->id,
-                    $item->nama_pelapor,
-                    $item->email_pelapor,
-                    $item->kategori->nama_kategori ?? '-',
-                    $item->judul,
-                    $item->lokasi,
-                    $item->status,
-                    $item->dikirim_ke_admin ? 'Ya' : 'Tidak',
-                    $item->created_at->format('d/m/Y H:i:s')
-                ]);
-            }
-            
-            fclose($file);
-        };
-
-        return response()->stream($callback, 200, $headers);
-    }
-
-    /**
-     * Optional: Private method to notify admin when laporan is sent.
-     */
-    private function notifyAdmin($laporan)
-    {
-        // Implementation depends on your notification system
-        // Could be email, database notification, etc.
-        
-        // Example:
-        // Mail::to('admin@example.com')->send(new LaporanSentToAdmin($laporan));
-        // Or create database notification
-        // Notification::create([...]);
-    }
-
-    /**
-     * Create status history record.
-     */
-    private function createStatusHistory($laporan, $oldStatus, $newStatus, $catatan = null)
-    {
-        // Assuming you have a status_histories table
-        // StatusHistory::create([
-        //     'laporan_id' => $laporan->id,
-        //     'old_status' => $oldStatus,
-        //     'new_status' => $newStatus,
-        //     'catatan' => $catatan,
-        //     'changed_by' => auth()->id(), // assuming you have user authentication
-        //     'changed_at' => now(),
-        // ]);
-    }
-
-    /**
-     * Get status history for a laporan.
-     */
-    public function getStatusHistory($id)
-    {
-        // Assuming you have a status_histories table
-        // return StatusHistory::where('laporan_id', $id)
-        //     ->with('user') // who made the change
-        //     ->orderBy('changed_at', 'desc')
-        //     ->get();
-        
-        return collect([]); // Return empty collection if not implemented
-    }
-
-    /**
-     * Dashboard data for petugas.
-     */
-    public function getDashboardData()
-    {
-        $today = now()->startOfDay();
-        $thisWeek = now()->startOfWeek();
-        $thisMonth = now()->startOfMonth();
-
-        return [
-            'total_laporan' => Laporan::count(),
-            'laporan_hari_ini' => Laporan::whereDate('created_at', $today)->count(),
-            'laporan_minggu_ini' => Laporan::where('created_at', '>=', $thisWeek)->count(),
-            'laporan_bulan_ini' => Laporan::where('created_at', '>=', $thisMonth)->count(),
-            
-            'menunggu' => Laporan::where('status', 'menunggu')->count(),
-            'diproses' => Laporan::where('status', 'diproses')->count(),
-            'selesai' => Laporan::where('status', 'selesai')->count(),
-            'ditolak' => Laporan::where('status', 'ditolak')->count(),
-            
-            'belum_dikirim_admin' => Laporan::where('dikirim_ke_admin', false)->count(),
-            'sudah_dikirim_admin' => Laporan::where('dikirim_ke_admin', true)->count(),
-
-            'recent_laporan' => Laporan::with('kategori')
-                ->orderBy('created_at', 'desc')
-                ->limit(5)
-                ->get(),
-                
-            'urgent_laporan' => Laporan::where('status', 'menunggu')
-                ->where('created_at', '<', now()->subDays(3))
-                ->count(),
-        ];
     }
 }

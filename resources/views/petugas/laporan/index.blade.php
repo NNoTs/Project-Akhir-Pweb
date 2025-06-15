@@ -8,7 +8,17 @@
 <body class="bg-[#FFF2DA] text-gray-800 p-6 font-sans">
 
     <div class="max-w-7xl mx-auto">
-        <h2 class="text-3xl font-bold text-center text-[#96AAD8] mb-6">Daftar Laporan dari Pelapor</h2>
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-3xl font-bold text-[#96AAD8]">Daftar Laporan dari Pelapor</h2>
+            
+            <form action="<?= route('logout') ?>" method="POST">
+                <?= csrf_field() ?>
+                <button type="submit"
+                        class="bg-red-500 hover:bg-red-600 text-white text-sm px-4 py-2 rounded shadow">
+                    <i class="fas fa-sign-out-alt mr-1"></i>Logout 
+                </button>
+            </form>
+        </div>
 
         <?php if(session('success')): ?>
             <div class="mb-4 p-4 bg-green-100 text-green-800 rounded">

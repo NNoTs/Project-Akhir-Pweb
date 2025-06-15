@@ -19,7 +19,13 @@ class Laporan extends Model
         'isi',
         'lokasi',
         'status',
-        'dikirim_ke_admin'
+        'dikirim_ke_admin',
+        'tanggal_dikirim_admin'
+    ];
+
+    protected $dates =
+    [
+        'tanggal_dikirim_admin'
     ];
 
     // Relasi ke kategori

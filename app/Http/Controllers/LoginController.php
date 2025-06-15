@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Admin;
+use App\Models\Petugas;
 
 class LoginController extends Controller
 {
@@ -16,31 +18,29 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        $request->validate
-        ([
-            'username' => 'required',
-            'password' => 'required'
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|min:6'
         ]);
 
-        $admin = DB::table('admin')->where('email', $request->username)->first();
-        if ($admin && Hash::check($request->password, $admin->password))
-        {
+        // Try admin login
+        $admin = Admin::where('email', $request->email)->first();
+        if ($admin && Hash::check($request->password, $admin->password)) {
             Session::put('user', $admin);
             Session::put('role', 'admin');
-            return redirect('/DashboardAdmin');
+            return redirect()->route('admin.dashboard'); // Use named routes
         }
 
-        $petugas = DB::table('petugas')->where('email', $request->username)->first();
-        if ($petugas && Hash::check($request->password, $petugas->password))
-        {
+        // Try petugas login
+        $petugas = Petugas::where('email', $request->email)->first();
+        if ($petugas && Hash::check($request->password, $petugas->password)) {
             Session::put('user', $petugas);
             Session::put('role', 'petugas');
-            return redirect('/DashboardPetugas');
+            return redirect()->route('petugas.laporan.index');
         }
 
-        return back()->withErrors
-        ([
-            'login_gagal' => 'Username atau password salah',
+        return back()->withErrors([
+            'login_gagal' => 'Email atau password salah',
         ]);
     }
 

@@ -9,7 +9,6 @@
 <body class="bg-[#FFF2DA] text-gray-800 p-6 font-sans min-h-screen">
 
     <div class="max-w-4xl mx-auto">
-        <!-- Header -->
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-3xl font-bold text-[#96AAD8]">Detail Laporan</h1>
             <a href="<?= route('petugas.laporan.index') ?>" 
@@ -18,16 +17,13 @@
             </a>
         </div>
 
-        <!-- Success Message -->
         <?php if(session('success')): ?>
             <div class="mb-4 p-4 bg-green-100 text-green-800 rounded border border-green-200">
                 <i class="fas fa-check-circle mr-2"></i><?= session('success') ?>
             </div>
         <?php endif; ?>
 
-        <!-- Main Content -->
         <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-            <!-- Status Badge -->
             <div class="bg-[#96AAD8] text-white p-4">
                 <div class="flex justify-between items-center">
                     <h2 class="text-xl font-semibold">Informasi Laporan</h2>
@@ -54,11 +50,8 @@
                 </div>
             </div>
 
-            <!-- Content -->
             <div class="p-6">
-                <!-- Laporan Details -->
                 <div class="grid md:grid-cols-2 gap-6 mb-8">
-                    <!-- Left Column -->
                     <div class="space-y-4">
                         <div class="bg-[#B9DEE7] p-4 rounded-lg">
                             <h3 class="font-semibold text-gray-700 mb-3 flex items-center">
@@ -101,7 +94,6 @@
                         </div>
                     </div>
 
-                    <!-- Right Column -->
                     <div class="space-y-4">
                         <div class="bg-[#B9DEE7] p-4 rounded-lg">
                             <h3 class="font-semibold text-gray-700 mb-3 flex items-center">
@@ -119,7 +111,6 @@
                             </div>
                         </div>
 
-                        <!-- Foto/Gambar jika ada -->
                         <?php if(!empty($laporan->foto)): ?>
                         <div class="bg-[#B9DEE7] p-4 rounded-lg">
                             <h3 class="font-semibold text-gray-700 mb-3 flex items-center">
@@ -145,16 +136,14 @@
                     </div>
                 </div>
 
-                <!-- Action Buttons -->
+
                 <div class="border-t pt-6">
                     <div class="flex flex-wrap gap-3 justify-center">
-                        <!-- Edit Status Button -->
                         <button onclick="openStatusModal(<?= $laporan->id ?>, '<?= $laporan->status ?>')"
                                 class="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-lg font-medium transition-colors duration-200">
                             <i class="fas fa-edit mr-2"></i>Edit Status
                         </button>
 
-                        <!-- Send to Admin Button -->
                         <?php if(!$laporan->dikirim_ke_admin): ?>
                             <form action="<?= route('petugas.laporan.kirim', $laporan->id) ?>" method="POST" class="inline"
                                   onsubmit="return confirm('Apakah Anda yakin ingin mengirim laporan ini ke admin?')">
@@ -180,7 +169,6 @@
         </div>
     </div>
 
-    <!-- Modal Edit Status -->
     <div id="statusModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden overflow-y-auto h-full w-full z-50">
         <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
             <div class="mt-3">
@@ -215,7 +203,6 @@
         </div>
     </div>
 
-    <!-- Modal Image Viewer -->
     <div id="imageModal" class="fixed inset-0 bg-black bg-opacity-75 hidden overflow-y-auto h-full w-full z-50">
         <div class="relative top-10 mx-auto p-5 w-11/12 max-w-4xl">
             <div class="flex justify-end mb-4">
@@ -234,13 +221,10 @@
             const form = document.getElementById('statusForm');
             const statusSelect = document.getElementById('status');
             
-            // Set form action URL
             form.action = `/laporan/status/${id}`;
             
-            // Set current status as selected
             statusSelect.value = currentStatus;
-            
-            // Show modal
+
             modal.classList.remove('hidden');
         }
 
@@ -275,7 +259,6 @@
             }
         });
 
-        // Close modals with Escape key
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 closeStatusModal();
