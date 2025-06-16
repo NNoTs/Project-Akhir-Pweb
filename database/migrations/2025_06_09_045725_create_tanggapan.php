@@ -9,24 +9,18 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
-        Schema::create('tanggapan', function (Blueprint $table)
-        {
-            $table->id();
-            $table->foreignId('laporan_id')->constrained('laporan');
-            $table->foreignId('admin_id')->constrained('admin');
-            $table->text('isi_tanggapan');
-            $table->enum('status_persetujuan', ['disetujui', 'ditolak']);
-            $table->timestamp('created_at')->useCurrent();
+        Schema::table('tanggapan', function (Blueprint $table) {
+            $table->enum('status', ['disetujui', 'ditolak'])->after('isi_tanggapan');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
-        Schema::dropIfExists('tanggapan');
+        Schema::table('tanggapan', function (Blueprint $table) {
+            $table->dropColumn('status');
+        });
     }
+
 };

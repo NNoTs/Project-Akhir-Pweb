@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('judul');
             $table->text('isi');
             $table->string('lokasi');
-            $table->enum('status', ['menunggu', 'diproses', 'selesai', 'ditolak'])->default('menunggu');
+            $table->enum('status', ['menunggu', 'diproses', 'disetujui', 'ditolak'])->default('menunggu');
             $table->timestamps();
         });
     }

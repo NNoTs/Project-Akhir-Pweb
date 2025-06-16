@@ -30,21 +30,27 @@
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-dark custom-navbar mb-4">
         <div class="container">
-            <a class="navbar-brand" href="#">
-                <img src="{{ asset('img/sapa-logo.png') }}" alt="logo-sapa" width="32" height="32" class="me-2">
-                SAPA Admin</a>
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <img src="{{ asset('img/sapa-logo.png') }}" alt="logo-sapa" width="40" height="40" class="me-2">
+                <div class="d-flex flex-column lh-1">
+                    <span class="fw-bold text-light" style="font-size: 1.25rem;">SAPA</span>
+                    <small class="text-light" style="font-size: 0.75rem;">Sistem Aspirasi dan Pengaduan Masyarakat</small>
+                </div>
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <li class="nav-item">
-                    <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        Keluar
-                    </a>
-                    <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-                        @csrf
-                    </form>
-                </li>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            Log Out
+                        </a>
+                        <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>

@@ -118,16 +118,26 @@
                 @foreach ($laporans as $laporan)
                     <tr>
                         <td>{{ $laporan->judul }}</td>
-                        <td>{{ $laporan->kategori_id }}</td>
+                        <td>{{ $laporan->nama_kategori }}</td>
                         <td>{{ $laporan->nama_pelapor }}</td>
                         <td>{{ $laporan->isi }}</td>
                         <td>
-                            <span class="status {{ strtolower($laporan->status) }}">
-                                {{ ucfirst($laporan->status) }}
-                            </span>
+                            <div class="detail-group"><strong>Status:</strong> 
+                                @php
+                                    $status = $laporan->status_persetujuan;
+                                @endphp
+
+                                @if ($status === 'disetujui')
+                                    <span class="status" style="background-color: #ccffcc; color: #007f00;">Disetujui</span>
+                                @elseif ($status === 'ditolak')
+                                    <span class="status" style="background-color: #ffcccc; color: #a10000;">Ditolak</span>
+                                @else
+                                    <span class="status menunggu">-</span> {{-- Belum diverifikasi --}}
+                                @endif
+                            </div>
                         </td>
                         <td>
-                            <a href="{{ url('/DashboardAdmin/' . $laporan->id) }}" class="btn-detail">Lihat Detail</a>
+                            <a href="{{ url('/DetailLaporanAdmin/' . $laporan->id) }}" class="btn-detail">Lihat Detail</a>
                         </td>
                     </tr>
                 @endforeach

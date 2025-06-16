@@ -19,9 +19,9 @@ Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get('/DashboardAdmin',[DashboardAdmin::class, 'dashboard']);
-Route::get('/DashboardAdmin/{id}', [DashboardAdmin::class, 'show']);
-Route::post('/DashboardAdmin/{id}/tanggapan', [DashboardAdmin::class, 'tanggapan']);
-Route::post('/DashboardAdmin/{id}/verifikasi', [DashboardAdmin::class, 'verifikasi']);
+Route::get('/DetailLaporanAdmin/{id}', [DashboardAdmin::class, 'show']);
+Route::post('/DashboardAdmin/tanggapan/{id}', [DashboardAdmin::class, 'kirimTanggapan']);
+Route::post('/DashboardAdmin/verifikasi/{id}', [DashboardAdmin::class, 'verifikasi']);
 
 Route::get('/DashboardPetugas', [DashboardPetugas::class, 'dashboard']);
 Route::get('/laporan/{id}', [LaporanController::class, 'show'])->name('petugas.laporan.show');
