@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Laporan;
 
 class DashboardPetugas extends Controller
 {
     public function dashboard()
     {
-        return view('DashboardPetugas');
+        $laporan = Laporan::all();
+        return view('DashboardPetugas', compact('laporan'));
     }
 }

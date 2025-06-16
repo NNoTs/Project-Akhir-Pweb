@@ -12,13 +12,22 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // Jika ingin testing dengan factory:
+        // User::factory(10)->create();
 
-        // Panggil semua seeder lainnya
+        // Jalankan semua seeder yang dibutuhkan:
         $this->call([
             AdminSeeder::class,
             PetugasSeeder::class,
             KategoriLaporanSeeder::class,
             LaporanSeeder::class,
         ]);
+
+        // Contoh user jika dibutuhkan:
+        // User::factory()->create([
+        //     'name' => 'Test User',
+        //     'email' => 'test@example.com',
+        // ]);
     }
 }
+

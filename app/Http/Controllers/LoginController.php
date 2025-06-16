@@ -18,22 +18,23 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|min:6'
+        $request->validate
+        ([
+            'email' => 'required',
+            'password' => 'required'
         ]);
 
-        // Try admin login
-        $admin = Admin::where('email', $request->email)->first();
-        if ($admin && Hash::check($request->password, $admin->password)) {
+        $admin = DB::table('admin')->where('email', $request->email)->first();
+        if ($admin && Hash::check($request->password, $admin->password))
+        {
             Session::put('user', $admin);
             Session::put('role', 'admin');
             return redirect()->route('admin.dashboard'); // Use named routes
         }
 
-        // Try petugas login
-        $petugas = Petugas::where('email', $request->email)->first();
-        if ($petugas && Hash::check($request->password, $petugas->password)) {
+        $petugas = DB::table('petugas')->where('email', $request->email)->first();
+        if ($petugas && Hash::check($request->password, $petugas->password))
+        {
             Session::put('user', $petugas);
             Session::put('role', 'petugas');
             return redirect()->route('petugas.laporan.index');
