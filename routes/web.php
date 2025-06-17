@@ -20,6 +20,13 @@ Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
+<<<<<<< HEAD
+=======
+Route::get('/DashboardAdmin',[DashboardAdmin::class, 'dashboard']);
+Route::get('/DetailLaporanAdmin/{id}', [DashboardAdmin::class, 'show']);
+Route::post('/DashboardAdmin/tanggapan/{id}', [DashboardAdmin::class, 'kirimTanggapan']);
+Route::post('/DashboardAdmin/verifikasi/{id}', [DashboardAdmin::class, 'verifikasi']);
+>>>>>>> 1d0a66fed6fe55c9c06bc29b62fe6af56002e242
 
 // group halaman admin
 Route::middleware(['auth:admin'])->prefix('admin')->group(function () {

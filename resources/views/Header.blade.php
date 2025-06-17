@@ -15,7 +15,7 @@
         }
         .navbar-brand {
             font-weight: bold;
-            border-radius: 20px
+            border-radius: 20px;
         }
         .card {
             border-radius: 12px;
@@ -23,14 +23,11 @@
         .custom-navbar {
             background-color: #9FB3DF;
         }
-
         .nav-link {
             color: black;
             text-right;
         }
-
     </style>
-
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -38,18 +35,22 @@
         <div class="container">
             <!-- Logo dan Judul -->
             <a class="navbar-brand d-flex align-items-center" href="#">
-                <img src="{{ asset('img/sapa-logo.png') }}" alt="logo-sapa" width="32" height="32" class="me-2">
-                <span class="text-white fw-bold">SAPA Admin</span>
+                <img src="{{ asset('img/sapa-logo.png') }}" alt="logo-sapa" width="40" height="40" class="me-2">
+                <div class="d-flex flex-column lh-1">
+                    <span class="fw-bold text-light" style="font-size: 1.25rem;">SAPA</span>
+                    <small class="text-light" style="font-size: 0.75rem;">Sistem Aspirasi dan Pengaduan Masyarakat</small>
+                </div>
             </a>
-
-
-            <!-- Link Keluar di kanan -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item3">
+                    <!-- Tambahkan navigasi admin -->
+                    <li class="nav-item">
                         <a href="{{ route('admin.dashboard') }}" class="btn btn-lihat">Beranda</a>
                     </li>
-                    <li class="nav-item2">
+                    <li class="nav-item">
                         <a class="nav-link" href="{{ route('admin.profile') }}">
                             <img src="{{ asset('img/icons.png') }}" alt="profile" width="32" height="32" class="rounded-circle">
                         </a>
@@ -66,7 +67,6 @@
             </div>
         </div>
     </nav>
-
 
     <!-- Main Content -->
     <main class="container">
