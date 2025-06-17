@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SAPA - Admin</title>
+    <title>SAPA - Petugas</title>
     <!-- Bootstrap CSS CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Optional: FontAwesome or icons -->
@@ -39,7 +39,7 @@
             <!-- Logo dan Judul -->
             <a class="navbar-brand d-flex align-items-center" href="#">
                 <img src="{{ asset('img/sapa-logo.png') }}" alt="logo-sapa" width="32" height="32" class="me-2">
-                <span class="text-white fw-bold">SAPA Admin</span>
+                <span class="text-white fw-bold">SAPA Petugas</span>
             </a>
 
 
@@ -47,10 +47,10 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item3">
-                        <a href="{{ route('admin.dashboard') }}" class="btn btn-lihat">Beranda</a>
+                        <a href="{{ route('petugas.laporan.index') }}" class="btn btn-lihat">Beranda</a>
                     </li>
                     <li class="nav-item2">
-                        <a class="nav-link" href="{{ route('admin.profile') }}">
+                        <a class="nav-link" href="{{ route('petugas.profile') }}">
                             <img src="{{ asset('img/icons.png') }}" alt="profile" width="32" height="32" class="rounded-circle">
                         </a>
                     </li>

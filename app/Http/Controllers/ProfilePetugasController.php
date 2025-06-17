@@ -6,29 +6,29 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-class ProfileController extends Controller
+class ProfilePetugasController extends Controller
 {
     public function index()
     {
-        $user = Auth::guard('admin')->user();
-        $guard = 'admin';
+        $user = Auth::guard('petugas')->user();
+        $guard = 'petugas';
 
-        return view('profile', compact('user', 'guard'));
+        return view('profilePetugas', compact('user', 'guard'));
     }
 
-    public function changePasswordForm()
+    public function changePasswordPetugas()
     {
-        return view('change-password');
+        return view('change-password-petugas');
     }
 
-    public function changePassword(Request $request)
+    public function changePasswordNow(Request $request)
     {
         $request->validate([
             'current_password' => 'required',
             'new_password' => 'required|min:8|confirmed',
         ]);
 
-        $user = Auth::guard('admin')->user(); // GUNAKAN guard
+        $user = Auth::guard('petugas')->user(); // GUNAKAN guard
         if (!Hash::check($request->current_password, $user->password)) {
             return back()->withErrors(['current_password' => 'Password saat ini salah.']);
         }
@@ -36,7 +36,6 @@ class ProfileController extends Controller
         $user->password = Hash::make($request->new_password);
         $user->save();
 
-        return redirect()->route('admin.profile')->with('success', 'Password berhasil diubah.');
+        return redirect()->route('petugas.profile')->with('success', 'Password berhasil diubah.');
     }
-
 }

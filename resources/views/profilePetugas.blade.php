@@ -1,4 +1,4 @@
-@extends('header')
+@extends('HeaderPetugas')
 
 @section('content')
 <div class="min-h-screen bg-[#9EB3E0] flex flex-col items-center">
@@ -20,7 +20,7 @@
 
             <!-- Link Ganti Password -->
             @php
-                $changePasswordRoute = $guard === 'admin' ? route('admin.change-password') : route('petugas.change-password');
+                $changePasswordRoute = $guard === 'petugas' ? route('petugas.change-password') : route('admin.change-password');
             @endphp
             <a href="{{ $changePasswordRoute }}" class="text-blue-600 hover:underline">Ubah Password</a>
         </div>

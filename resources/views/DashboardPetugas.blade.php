@@ -34,21 +34,24 @@
                     </svg>
                     <span class="absolute top-0 right-0 h-2 w-2 rounded-full bg-red-500"></span>
                 </div>
-                <div class="flex items-center space-x-2">
-                    <a href="{{ route('petugas.laporan.index') }}" class="btn btn-lihat">Beranda</a>
+                <div class="flex items-center space-x-4">
+                    <!-- Link Beranda -->
+                    <a href="{{ route('petugas.laporan.index') }}" title="Beranda" class="text-sm text-gray-700 hover:text-[#96AAD8] transition">
+                        Beranda
+                    </a>
+
+                    <!-- Link Profil -->
                     <a href="{{ route('petugas.profile') }}" title="Lihat Profil">
-                        <div class="h-8 w-8 rounded-full bg-[#96AAD8] flex items-center justify-center text-white font-medium hover:bg-[#7b92c5] transition">
-                            <img src="{{ asset('img/icons.png') }}" alt="logo Profile">
-                        </div>
+                        <img src="{{ asset('img/icons.png') }}" alt="logo Profile" class="h-6 w-6 rounded-full cursor-pointer hover:opacity-80 transition" />
                     </a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+
+                    <!-- Logout -->
+                    <form action="{{ route('logout') }}" method="POST">
                         @csrf
+                        <button type="submit" class="text-sm text-gray-600 hover:text-[#96AAD8] transition">
+                            Logout
+                        </button>
                     </form>
-                    <a href="#"
-                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                        class="text-sm text-gray-600 hover:text-[#96AAD8] transition">
-                        Logout
-                    </a>
                 </div>
             </div>
         </div>
