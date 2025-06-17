@@ -46,10 +46,30 @@ class LaporanController extends Controller
     /**
      * Petugas melihat semua laporan.
      */
-    public function lihat()
+    public function lihat(Request $request)
     {
-        $laporan = Laporan::with('kategori')->latest()->get();
-        return view('lihatlaporan', compact('laporan'));
+        $query = Laporan::with('kategori')->latest();
+        
+        // Filter by status
+        if ($request->has('status') && $request->status != 'semua') {
+            $query->where('status', $request->status);
+        }
+        
+        // Search functionality
+        if ($request->has('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('judul', 'like', '%'.$search.'%')
+                ->orWhere('isi', 'like', '%'.$search.'%')
+                ->orWhere('nama_pelapor', 'like', '%'.$search.'%')
+                ->orWhere('lokasi', 'like', '%'.$search.'%');
+            });
+        }
+        
+        // Use paginate() instead of get() to get a LengthAwarePaginator instance
+        $laporan = $query->get();
+        
+        return view('DashboardPetugas', compact('laporan'));
     }
 
     /**
@@ -58,7 +78,50 @@ class LaporanController extends Controller
     public function show($id)
     {
         $laporan = Laporan::with('kategori')->findOrFail($id);
-        return view('PetugasMelihatLaporan', compact('laporan'));
+        return view('petugas.laporan.show', compact('laporan'));
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $validStatuses = ['menunggu', 'diproses', 'selesai', 'ditolak'];
+        
+        $request->validate([
+            'status' => ['required', 'in:' . implode(',', $validStatuses)]
+        ]);
+
+        $laporan = Laporan::findOrFail($id);
+        $laporan->status = $request->status;
+        
+        // Jika status diubah menjadi 'selesai', tandai sebagai selesai
+        if ($request->status == 'selesai') {
+            $laporan->updated_at = now();
+        }
+        
+        $laporan->save();
+
+        return back()->with('success', 'Status laporan berhasil diperbarui');
+    }
+
+    /**
+     * Membatalkan pengiriman laporan ke admin
+     */
+    public function batalkanKirimKeAdmin($id)
+    {
+        $laporan = Laporan::findOrFail($id);
+
+        if (!$laporan->dikirim_ke_admin) {
+            return redirect()->route('petugas.laporan.index')
+                ->with('warning', 'Laporan ini belum dikirim ke admin.');
+        }
+
+        $laporan->update([
+            'dikirim_ke_admin' => false,
+            'tanggal_dikirim_admin' => null,
+            'status' => 'menunggu'
+        ]);
+
+        return redirect()->route('petugas.laporan.index')
+            ->with('success', 'Pengiriman laporan ke admin berhasil dibatalkan.');
     }
 
     public function kirimKeAdmin($id)

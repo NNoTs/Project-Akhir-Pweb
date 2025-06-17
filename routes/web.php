@@ -26,7 +26,8 @@ Route::post('/DashboardAdmin/{id}/verifikasi', [DashboardAdmin::class, 'verifika
 Route::get('/DashboardPetugas', [DashboardPetugas::class, 'dashboard'])->name('petugas.laporan.index');
 Route::get('/laporan/{id}', [LaporanController::class, 'show'])->name('petugas.laporan.show');
 Route::post('/laporan/kirim/{id}', [LaporanController::class, 'kirimKeAdmin'])->name('petugas.laporan.kirim');
-Route::patch('/laporan/status/{id}', [LaporanController::class, 'updateStatus'])->name('petugas.laporan.status');
+Route::post('/laporan/status/{id}', [LaporanController::class, 'updateStatus'])->name('petugas.laporan.status');
+Route::post('/laporan/batal/{id}', [LaporanController::class, 'batalkanKirimKeAdmin'])->name('petugas.laporan.batal');
 
 // Route tambahan (opsional)
 Route::get('/laporan/edit-status/{id}', [LaporanController::class, 'editStatus'])->name('petugas.laporan.edit_status');
