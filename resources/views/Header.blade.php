@@ -23,6 +23,11 @@
             background-color: #9FB3DF;
         }
 
+        .nav-link {
+            color: black;
+            text-right;
+        }
+
     </style>
 
 </head>
@@ -30,24 +35,41 @@
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-dark custom-navbar mb-4">
         <div class="container">
-            <a class="navbar-brand" href="#">
+            <!-- Logo dan Judul -->
+            <a class="navbar-brand d-flex align-items-center" href="#">
                 <img src="{{ asset('img/sapa-logo.png') }}" alt="logo-sapa" width="32" height="32" class="me-2">
-                SAPA Admin</a>
+                <span class="text-white fw-bold">SAPA Admin</span>
+            </a>
+
+            <!-- Toggle Button untuk Mobile -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
+
+            <!-- Link Keluar di kanan -->
             <div class="collapse navbar-collapse" id="navbarNav">
-                <li class="nav-item">
-                    <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        Keluar
-                    </a>
-                    <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-                        @csrf
-                    </form>
-                </li>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item3">
+                        <a href="{{ route('admin.dashboard') }}" class="btn btn-lihat">Beranda</a>
+                    </li>
+                    <li class="nav-item2">
+                        <a class="nav-link" href="{{ route('admin.profile') }}">
+                            <img src="{{ asset('img/icons.png') }}" alt="profile" width="32" height="32" class="rounded-circle">
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            Keluar
+                        </a>
+                        <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>
+
 
     <!-- Main Content -->
     <main class="container">

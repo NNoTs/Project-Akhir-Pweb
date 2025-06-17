@@ -2,17 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;  // ⬅️ penting
+use Illuminate\Notifications\Notifiable;
 
-class Admin extends Model
+class Admin extends Authenticatable
 {
-    protected $table = 'admin'; // penting, karena default Laravel pakai 'admins'
+    use Notifiable;
 
-    protected $fillable = [
-        'nama',
-        'email',
-        'password',
-    ];
-
-    protected $hidden = ['password'];
+    protected $table = 'admin';           // nama tabel
+    protected $fillable = ['nama','email','password'];
+    protected $hidden   = ['password','remember_token'];
 }

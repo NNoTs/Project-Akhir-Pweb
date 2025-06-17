@@ -3,11 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Hash;
-use App\Models\Admin;
-use App\Models\Petugas;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -18,28 +14,26 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        $request->validate
-        ([
-            'email' => 'required',
-            'password' => 'required'
+        $request->validate([
+            'email'    => 'required|email',
+            'password' => 'required',
         ]);
 
-        $admin = DB::table('admin')->where('email', $request->email)->first();
-        if ($admin && Hash::check($request->password, $admin->password))
-        {
-            Session::put('user', $admin);
-            Session::put('role', 'admin');
-            return redirect()->route('admin.dashboard'); // Use named routes
+        $credentials = $request->only('email','password');
+
+        // 1️⃣ coba guard admin
+        if (Auth::guard('admin')->attempt($credentials)) {
+            $request->session()->regenerate();          // lindungi session fixation
+            return redirect()->route('admin.dashboard');
         }
 
-        $petugas = DB::table('petugas')->where('email', $request->email)->first();
-        if ($petugas && Hash::check($request->password, $petugas->password))
-        {
-            Session::put('user', $petugas);
-            Session::put('role', 'petugas');
+        // 2️⃣ coba guard petugas
+        if (Auth::guard('petugas')->attempt($credentials)) {
+            $request->session()->regenerate();
             return redirect()->route('petugas.laporan.index');
         }
 
+        // gagal
         return back()->withErrors([
             'login_gagal' => 'Email atau password salah',
         ]);
@@ -47,8 +41,13 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
-        Session::flush();
+        // Log‑out dari kedua guard jika ada
+        Auth::guard('admin')->logout();
+        Auth::guard('petugas')->logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
         return redirect('/login');
     }
-
 }

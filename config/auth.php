@@ -35,9 +35,22 @@ return [
     |
     */
 
-    'guards' => [
-        'web' => [
-            'driver' => 'session',
+   'guards' =>
+   [
+        'admin' =>
+        [
+            'driver'   => 'session',
+            'provider' => 'admins',
+        ],
+        'petugas' =>
+        [
+            'driver'   => 'session',
+            'provider' => 'petugas',
+        ],
+    // default “web” tetap boleh dipakai untuk User biasa
+        'web' =>
+        [
+            'driver'   => 'session',
             'provider' => 'users',
         ],
     ],
@@ -59,16 +72,23 @@ return [
     |
     */
 
-    'providers' => [
-        'users' => [
+    'providers' =>
+    [
+        'admins' =>
+        [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\User::class),
+            'model'  => App\Models\Admin::class,
         ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'petugas' =>
+        [
+            'driver' => 'eloquent',
+            'model'  => App\Models\Petugas::class,
+        ],
+        'users' =>
+        [
+            'driver' => 'eloquent',
+            'model'  => App\Models\User::class,
+        ],
     ],
 
     /*

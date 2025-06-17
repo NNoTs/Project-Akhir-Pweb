@@ -35,8 +35,20 @@
                     <span class="absolute top-0 right-0 h-2 w-2 rounded-full bg-red-500"></span>
                 </div>
                 <div class="flex items-center space-x-2">
-                    <div class="h-8 w-8 rounded-full bg-[#96AAD8] flex items-center justify-center text-white font-medium">P</div>
-                    <a href="{{ route('logout') }}" class="text-sm text-gray-600 hover:text-[#96AAD8] transition">Logout</a>
+                    <a href="{{ route('petugas.laporan.index') }}" class="btn btn-lihat">Beranda</a>
+                    <a href="{{ route('petugas.profile') }}" title="Lihat Profil">
+                        <div class="h-8 w-8 rounded-full bg-[#96AAD8] flex items-center justify-center text-white font-medium hover:bg-[#7b92c5] transition">
+                            <img src="{{ asset('img/icons.png') }}" alt="logo Profile">
+                        </div>
+                    </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                    <a href="#"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                        class="text-sm text-gray-600 hover:text-[#96AAD8] transition">
+                        Logout
+                    </a>
                 </div>
             </div>
         </div>
@@ -131,7 +143,7 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                         </svg>
                                     </a>
-                                    
+
                                     <?php if (!$item->dikirim_ke_admin): ?>
                                     <form action="<?= route('petugas.laporan.kirim', $item->id) ?>" method="POST" class="inline">
                                         <?= csrf_field() ?>
