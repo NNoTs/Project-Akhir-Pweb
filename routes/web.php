@@ -20,20 +20,14 @@ Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-<<<<<<< HEAD
-=======
-Route::get('/DashboardAdmin',[DashboardAdmin::class, 'dashboard']);
-Route::get('/DetailLaporanAdmin/{id}', [DashboardAdmin::class, 'show']);
-Route::post('/DashboardAdmin/tanggapan/{id}', [DashboardAdmin::class, 'kirimTanggapan']);
-Route::post('/DashboardAdmin/verifikasi/{id}', [DashboardAdmin::class, 'verifikasi']);
->>>>>>> 1d0a66fed6fe55c9c06bc29b62fe6af56002e242
+
 
 // group halaman admin
 Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
     Route::get('/DashboardAdmin',[DashboardAdmin::class, 'dashboard'])->name('admin.dashboard');
-    Route::get('/DashboardAdmin/{id}', [DashboardAdmin::class, 'show']);
-    Route::post('/DashboardAdmin/{id}/tanggapan', [DashboardAdmin::class, 'tanggapan']);
-    Route::post('/DashboardAdmin/{id}/verifikasi', [DashboardAdmin::class, 'verifikasi']);
+    Route::get('/DetailLaporanAdmin/{id}', [DashboardAdmin::class, 'show'])->name('admin.detailLaporan');
+    Route::post('/DashboardAdmin/tanggapan/{id}', [DashboardAdmin::class, 'kirimTanggapan'])->name('admin.kirimtanggapan');
+    Route::post('/DashboardAdmin/verifikasi/{id}', [DashboardAdmin::class, 'verifikasi']);
     Route::get('/profile', [ProfileController::class,'index'])->name('admin.profile');
     Route::get('/profile/change-password', [ProfileController::class, 'changePasswordForm'])->name('admin.change-password');
     Route::post('/profile/change-password', [ProfileController::class, 'changePassword'])->name('admin.update-password');

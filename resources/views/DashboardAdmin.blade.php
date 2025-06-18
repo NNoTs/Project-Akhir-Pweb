@@ -122,7 +122,7 @@
                         <td>{{ $laporan->nama_pelapor }}</td>
                         <td>{{ $laporan->isi }}</td>
                         <td>
-                            <div class="detail-group"><strong>Status:</strong> 
+                            <div class="detail-group"><strong>Status:</strong>
                                 @php
                                     $status = $laporan->status_persetujuan;
                                 @endphp
@@ -137,7 +137,7 @@
                             </div>
                         </td>
                         <td>
-                            <a href="{{ url('/DetailLaporanAdmin/' . $laporan->id) }}" class="btn-detail">Lihat Detail</a>
+                            <a href="{{ route('admin.detailLaporan' , ['id' => $laporan->id]) }}" class="btn-detail">Lihat Detail</a>
                         </td>
                     </tr>
                 @endforeach

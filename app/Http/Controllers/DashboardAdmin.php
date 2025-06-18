@@ -53,6 +53,6 @@ class DashboardAdmin extends Controller
             ]);
         }
 
-        return redirect('/DashboardAdmin')->with('status', 'Tanggapan berhasil disimpan.');
+        return redirect()->route('admin.dashboard')->with('status', 'Tanggapan berhasil disimpan.');
     }
 }

@@ -95,7 +95,7 @@
     </style>
 
     <div class="detail-container">
-        <a href="{{ url('/DashboardAdmin') }}" class="btn-kembali">← Kembali</a>
+        <a href="{{ url('admin/DashboardAdmin') }}" class="btn-kembali">← Kembali</a>
         <h1>Detail Laporan</h1>
         <div class="detail-group"><strong>Pelapor:</strong> {{ $laporan->nama_pelapor }}</div>
         <div class="detail-group"><strong>Judul:</strong> {{ $laporan->judul }}</div>
@@ -110,7 +110,7 @@
                 -
             @endif
         </div>
-        <div class="detail-group"><strong>Status:</strong> 
+        <div class="detail-group"><strong>Status:</strong>
             @php
                 $status = $laporan->status_persetujuan;
             @endphp
@@ -128,7 +128,7 @@
     <div class="detail-container">
         <h1>Form Verifikasi & Tanggapan</h1>
         <p>Silakan berikan tanggapan Anda terhadap laporan ini.</p>
-        <form action="{{ url('/DashboardAdmin/tanggapan/' . $laporan->id) }}" method="POST">
+        <form action="{{ url('admin/DashboardAdmin/tanggapan/' . $laporan->id) }}" method="POST">
             @csrf
             <div class="form-section">
                 <h3>Verifikasi Laporan</h3>
